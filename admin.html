@@ -1,1 +1,85 @@
-/‎/ === FIRE
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AST2 Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <style>
+    :root { --gold: #C8A45D; --blue-dark: #0A0F27; --blue-card: #141B3D; }
+    body { background: linear-gradient(135deg, #0A0F27, #141B3D); min-height: 100vh; color: white; font-family: system-ui; padding: 16px; }
+    .card { background: rgba(20,27,61,0.85); border: 1px solid rgba(200,164,93,0.25); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+    .btn-gold { background: linear-gradient(135deg, #C8A45D, #F7E5B6); color: #0A0F27; font-weight: 700; border-radius: 12px; border: none; padding: 10px 16px; cursor: pointer; width: 100%; }
+    .btn-blue { background: linear-gradient(135deg, #3B82F6, #1E40AF); color: white; border-radius: 12px; border: none; padding: 10px 16px; cursor: pointer; }
+    .btn-red { background: linear-gradient(135deg, #EF4444, #B91C1C); color: white; border-radius: 12px; border: none; padding: 8px 12px; cursor: pointer; }
+    .hidden { display: none !important; }
+    input { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 10px; color: white; width: 100%; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+
+<div id="loginPage" class="flex items-center justify-center min-h-screen">
+  <div class="card" style="max-width: 400px; margin: 0 auto;">
+    <h1 class="text-2xl font-bold text-center mb-2" style="color:var(--gold)">AST2 ADMIN</h1>
+    <p class="text-gray-400 text-sm text-center mb-6">Asteroid2Shiba — Panel Kontrol</p>
+    <label class="text-sm text-gray-400 block mb-1">Username</label>
+    <input type="text" id="adminUser" placeholder="Masukkan username">
+    <label class="text-sm text-gray-400 block mb-1">Password</label>
+    <input type="password" id="adminPass" placeholder="Masukkan password">
+    <button id="btnLogin" class="btn-gold">🔐 MASUK</button>
+    <p id="loginErr" class="text-red-400 text-sm text-center hidden mt-2">Salah username atau password!</p>
+  </div>
+</div>
+
+<div id="adminPage" class="hidden">
+  <h1 class="text-xl font-bold mb-4" style="color:var(--gold)">✅ BERHASIL MASUK — AST2 ADMIN</h1>
+  <p class="text-green-400">Firebase terhubung! 🎉</p>
+  <button id="btnLogout" class="btn-red mt-4">Keluar</button>
+</div>
+
+<script>
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "ast22026";
+
+// === GANTI BAGIAN INI DENGAN KODE ASLI DARI FIREBASE ===
+const firebaseConfig = {
+  apiKey: "AIzaSyCVm5Pfg8wTrwFabcdefghijklmnopqrstuvwxyz1234567890",
+  authDomain: "ast2-database.firebaseapp.com",
+  databaseURL: "https://ast2-database-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  projectId: "ast2-database",
+  storageBucket: "ast2-database.appspot.com",
+  messagingSenderId: "1057748242781",
+  appId: "1:1057748242781:web:abcDefGhiJklMnOpQrStUvWxYz12345"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+document.getElementById("btnLogin").addEventListener("click", () => {
+  const u = document.getElementById("adminUser").value.trim();
+  const p = document.getElementById("adminPass").value.trim();
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    localStorage.setItem("ast2Admin", "ok");
+    masukPanel();
+  } else {
+    document.getElementById("loginErr").classList.remove("hidden");
+  }
+});
+
+if (localStorage.getItem("ast2Admin") === "ok") masukPanel();
+
+function masukPanel() {
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("adminPage").classList.remove("hidden");
+}
+
+document.getElementById("btnLogout").addEventListener("click", () => {
+  localStorage.removeItem("ast2Admin");
+  location.reload();
+});
+</script>
+</body>
+</html>
